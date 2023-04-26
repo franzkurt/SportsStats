@@ -23,7 +23,9 @@ def informar_partida(url):
     nextdata = soup.find('script', id='__NEXT_DATA__').string
     json_data = json.loads(nextdata)
     num_event = json_data['props']['pageProps']['event']['id']
-    return num_event
+    season = json_data['props']['pageProps']['event']['season']['id']
+    tournament = json_data['props']['pageProps']['event']['tournament']['uniqueTournament']['id']
+    return num_event, season, tournament
 
 
 def dados_evento(num):
@@ -49,3 +51,15 @@ def sequencias(num):
     general = json_data['general']
     head2head = json_data['head2head']
     return general,head2head
+
+def situacao(num):
+    url = f'https://api.sofascore.com/api/v1/event/{num}/pregame-form'
+    html = requests.get(url,headers=header)
+    json_data = json.loads(html.text)
+    home_posicao, home_pontos = json_data['homeTeam']['position'], json_data['homeTeam']['value']
+    away_posicao, away_pontos = json_data['awayTeam']['position'], json_data['awayTeam']['value']
+    home_last = json_data['homeTeam']['form']
+    away_last = json_data['awayTeam']['form']
+    return print('Time mandante:','Posição:',home_posicao,'Com', home_pontos,'Pts', home_last,'\n','-'*10,'\n'
+                 'Time visitante:','Posição:',away_posicao,'Com', away_pontos,'Pts', away_last)
+

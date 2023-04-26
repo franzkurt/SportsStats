@@ -1,11 +1,15 @@
-import event
+import sofascore.event as event
+import sofascore.team as team
 
+link = input('Informe a partida: ')
+ids = event.informar_partida(link)
+id_partida, id_season, id_torneio = ids[0], ids[1], ids[2]
 
-dados = (event.dados_evento(event.informar_partida('https://www.sofascore.com/gremio-abc/BtcsNLi')))
+dados = event.dados_evento(id_partida)
 
 torneio, hometeam, awayteam, homeslug, homeid, awayslug, awayid = dados[0], dados[1], dados[2], dados[3], dados[4], dados[5], dados[6]
 
-sequencias = event.sequencias(event.informar_partida('https://www.sofascore.com/gremio-abc/BtcsNLi'))
+sequencias = event.sequencias(id_partida)
 
 for i in sequencias[0]:
     nome_time = i['team']
@@ -23,3 +27,10 @@ for i in sequencias[1]:
     if nome_time == 'home':
         nome_time = hometeam
     print(nome_time, i['name'],i['value'])
+
+print('-' * 10,hometeam,'-' * 10)
+team.estatisticas(homeid,id_torneio,id_season)
+print('-' * 10,awayteam,'-' * 10)
+team.estatisticas(awayid,id_torneio,id_season)
+
+event.situacao(id_partida)
