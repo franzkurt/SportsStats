@@ -34,7 +34,7 @@ def estatisticas(id, torneio, season):
     impedimentos = statistics['offsides']
     impedimentos_adv = statistics['offsidesAgainst']
     return print(f'{partidas} Partidas jogadas\n{gols_favor / partidas} Média de gols marcados\n{gols_contra / partidas} Média de gols cedidos\n{finalizacoes / partidas} Finalizações por jogo\n{fin_gol / partidas} Chutes a gol por jogo\n'
-f'{corners_favor / partidas} Escanteios por jogo\n{corners_contra / partidas} Escanteios cedidos por jogo\n{amarelos / partidas} Cartões amarelos por jogo'
+f'{corners_favor / partidas} Escanteios por jogo\n{corners_contra / partidas} Escanteios cedidos por jogo\n{(corners_favor / partidas) + (corners_contra / partidas)} Escanteios na partida\n{amarelos / partidas} Cartões amarelos por jogo'
 f'\n{amarelos_adv / partidas} Cartões amarelos do adversário por jogo\n{impedimentos / partidas} Impedimentos por jogo\n{impedimentos_adv / partidas} Impedimentos do adversário por jogo')
 
 

@@ -1,5 +1,5 @@
-import sofascore.event as event
-import sofascore.team as team
+import event
+import team
 
 link = input('Informe a partida: ')
 ids = event.informar_partida(link)
