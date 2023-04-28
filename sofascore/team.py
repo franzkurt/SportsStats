@@ -17,8 +17,8 @@ header = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36'
 }
 
-def estatisticas(id, torneio, season):
-    url = f'https://api.sofascore.com/api/v1/team/{id}/unique-tournament/{torneio}/season/{season}/statistics/overall'
+def estatisticas(ide, torneio, season):
+    url = f'https://api.sofascore.com/api/v1/team/{ide}/unique-tournament/{torneio}/season/{season}/statistics/overall'
     html = requests.get(url, headers=header)
     json_data = json.loads(html.text)
     statistics = json_data['statistics']
@@ -37,14 +37,12 @@ def estatisticas(id, torneio, season):
 f'{corners_favor / partidas} Escanteios por jogo\n{corners_contra / partidas} Escanteios cedidos por jogo\n{(corners_favor / partidas) + (corners_contra / partidas)} Escanteios na partida\n{amarelos / partidas} Cartões amarelos por jogo'
 f'\n{amarelos_adv / partidas} Cartões amarelos do adversário por jogo\n{impedimentos / partidas} Impedimentos por jogo\n{impedimentos_adv / partidas} Impedimentos do adversário por jogo')
 
+def player_stats(ide, torneio, season):
+    url = f'https://api.sofascore.com/api/v1/team/{ide}/unique-tournament/{torneio}/season/{season}/top-players/overall'
+    html = requests.get(url, headers=header)
+    json_data = json.loads(html.text)
+    keys = json_data['topPlayers']
 
-html = requests.get('https://api.sofascore.com/api/v1/team/30/unique-tournament/17/season/41886/statistics/overall', headers=header)
-json_data = json.loads(html.text)
-statistics = json_data['statistics']
-partidas = statistics['matches']
-corners_favor = statistics['corners']
-amarelos = statistics['yellowCards']
-amarelos_adv = statistics['yellowCardsAgainst'] 
-corners_contra = statistics['cornersAgainst']
-impedimentos = statistics['offsides']
-impedimentos_adv = statistics['offsidesAgainst']
+    for i in keys:
+        for p in keys[i]:
+            print(p['player']['name'], p['statistics'])
