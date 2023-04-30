@@ -1,7 +1,7 @@
 import requests
 import json
 from bs4 import BeautifulSoup as bs
-
+from event import informar_partida
 
 header = {
     'accept': '*/*',
@@ -46,3 +46,59 @@ def player_stats(ide, torneio, season):
     for i in keys:
         for p in keys[i]:
             print(p['player']['name'], p['statistics'])
+                
+
+def last_games(ide, name):
+    url = f'https://api.sofascore.com/api/v1/team/{ide}/events/last/0'
+    html = requests.get(url, headers=header)
+    json_data = json.loads(html.text)
+    keys = json_data['events']
+    gols_primeiro_soma, gols_soma, escanteios_soma, amarelos_soma, partidas_soma, chutes_soma = 0, 0 ,0 ,0 ,0, 0
+
+    for i in keys:
+        nome_torneio = i['tournament']['name']
+        slug, custom_id = i['slug'], i['customId']
+        time_casa = i['homeTeam']['name']
+        time_away = i['awayTeam']['name']
+        try:
+            gols_casa = i['homeScore']['display']
+            gols_away = i['awayScore']['display']
+            gols_casa_tempo = i['homeScore']['period1']
+            gols_away_tempo = i['awayScore']['period1']
+        except:
+            continue
+        id_antigas = informar_partida(f'https://www.sofascore.com/{slug}/{custom_id}')
+        url_antiga = f'https://api.sofascore.com/api/v1/event/{id_antigas[0]}/statistics'
+        html = requests.get(url_antiga, headers=header)
+        json_data_antiga = json.loads(html.text)
+        try:
+            stats = json_data_antiga['statistics']
+        except:
+            continue
+        print('/' * 20)
+        print(nome_torneio,'\n', time_casa, ':', gols_casa, time_away, ':', gols_away, '\n','Gols primeiro tempo:', time_casa, gols_casa_tempo,' - ', time_away, gols_away_tempo )
+        for x in stats[0]['groups']:
+            for y in x['statisticsItems']:
+                if y['name'] == 'Corner kicks' or y['name'] == 'Yellow cards' or y['name'] == 'Total shots':
+                    print (y['name'],'-' ,time_casa,':', y['home'], time_away,':', y['away'])
+                    if time_casa == name:
+                        if y['name'] == 'Corner kicks':
+                            escanteios_soma += int(y['home'])
+                        elif y['name'] == 'Yellow cards':
+                            amarelos_soma += int(y['home'])
+                        elif y['name'] == 'Total shots':
+                            chutes_soma += int(y['home'])
+                    else:
+                        if y['name'] == 'Corner kicks':
+                            escanteios_soma += int(y['away'])
+                        elif y['name'] == 'Yellow cards':
+                            amarelos_soma += int(y['away'])
+                        elif y['name'] == 'Total shots':
+                            chutes_soma += int(y['away'])
+                else:
+                    continue
+        print('escanteios',escanteios_soma,'amarelos', amarelos_soma,'chutes,', chutes_soma)
+   
+
+   
+   

@@ -1,11 +1,9 @@
 import event
 import team
-from match import info_soccerstats
 
 link = input('Informe a partida Sofascore: ')
 ids = event.informar_partida(link)
-# link = input('Informe a partida SoccerStats: ')
-# info_soccerstats(link)
+
 
 id_partida, id_season, id_torneio = ids[0], ids[1], ids[2]
 
@@ -43,3 +41,10 @@ print('-' * 20)
 team.player_stats(homeid,id_torneio,id_season)
 print('-' * 20)
 team.player_stats(awayid,id_torneio,id_season)
+print('-' * 20)
+print('-' * 20,'ULTIMOS JOGOS','-' * 20)
+print('-' * 20)
+team.last_games(homeid,hometeam)
+print('-' * 20)
+print('-' * 20)
+team.last_games(awayid, awayteam)

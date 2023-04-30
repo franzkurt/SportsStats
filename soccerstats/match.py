@@ -85,6 +85,5 @@ def info_soccerstats(url):
             for p in stats[awayname][i].keys():
                 print (p, stats[awayname][i][p])
 
-
-
-
+link = input('Informe a partida SoccerStats: ')
+info_soccerstats(link)
