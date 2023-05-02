@@ -29,22 +29,27 @@ for i in sequencias[1]:
     if nome_time == 'home':
         nome_time = hometeam
     print(nome_time, i['name'],i['value'])
-
+print('\n')
 print('-' * 10,hometeam,'-' * 10)
 team.estatisticas(homeid,id_torneio,id_season)
+print('\n')
 print('-' * 10,awayteam,'-' * 10)
 team.estatisticas(awayid,id_torneio,id_season)
 
 event.situacao(id_partida)
-
+print('-' * 5,'ÚLTIMOS CONFRONTOS' ,'-' * 5)
+team.ultimas_headtohead(link)
 print('-' * 20)
 team.player_stats(homeid,id_torneio,id_season)
-print('-' * 20)
+
+print('-' * 15, awayteam,'-' * 15)
 team.player_stats(awayid,id_torneio,id_season)
-print('-' * 20)
+print('\n')
 print('-' * 20,'ULTIMOS JOGOS','-' * 20)
+print(hometeam)
+team.last_games(homeid, hometeam)
 print('-' * 20)
-team.last_games(homeid,hometeam)
-print('-' * 20)
-print('-' * 20)
+print(awayteam)
 team.last_games(awayid, awayteam)
+
+input('Digite enter para sair')

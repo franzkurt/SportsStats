@@ -56,10 +56,12 @@ def situacao(num):
     url = f'https://api.sofascore.com/api/v1/event/{num}/pregame-form'
     html = requests.get(url,headers=header)
     json_data = json.loads(html.text)
-    home_posicao, home_pontos = json_data['homeTeam']['position'], json_data['homeTeam']['value']
-    away_posicao, away_pontos = json_data['awayTeam']['position'], json_data['awayTeam']['value']
-    home_last = json_data['homeTeam']['form']
-    away_last = json_data['awayTeam']['form']
-    return print('Time mandante:','Posição:',home_posicao,'Com', home_pontos,'Pts', home_last,'\n','-'*10,'\n'
+    try:
+        home_posicao, home_pontos = json_data['homeTeam']['position'], json_data['homeTeam']['value']
+        away_posicao, away_pontos = json_data['awayTeam']['position'], json_data['awayTeam']['value']
+        home_last = json_data['homeTeam']['form']
+        away_last = json_data['awayTeam']['form']
+        return print('Time mandante:','Posição:',home_posicao,'Com', home_pontos,'Pts', home_last,'\n','-'*10,'\n'
                  'Time visitante:','Posição:',away_posicao,'Com', away_pontos,'Pts', away_last)
-
+    except:
+        pass
