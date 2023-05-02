@@ -283,8 +283,6 @@ def ultimas_headtohead(url):
                     impedimentos_totais += int(y['home'])
                     impedimentos_totais += int(y['away'])
         
-        if vitorias_visitante == 5 or vitorias_visitante == 5 or empates == 5:
-            break
         print('\n')
     print(f'{hometeam} venceu {vitorias_casa} || {awayteam} venceu {vitorias_visitante} || Empatou {empates} vezes\n'
           f'Médias no jogos de: \nEscanteios: {escanteios_totais/ (vitorias_casa + vitorias_visitante + empates):.2f}\nAmarelos: {amarelos_totais/ (vitorias_casa + vitorias_visitante + empates):.2f}\nImpedimentos: {impedimentos_totais/ (vitorias_casa + vitorias_visitante + empates):.2f}\nChutes: {chutes_totais/ (vitorias_casa + vitorias_visitante + empates):.2f}'

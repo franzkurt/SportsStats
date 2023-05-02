@@ -44,13 +44,28 @@ def dados_evento(num):
     awayid = awayinfo['id'] 
     return torneio, homename, awayname, homeslug, homeid, awayslug, awayid
 
-def sequencias(num):
+def sequencias(num, home, away):
     url =f'https://api.sofascore.com/api/v1/event/{num}/team-streaks'
     html = requests.get(url,headers=header)
     json_data = json.loads(html.text)
     general = json_data['general']
     head2head = json_data['head2head']
-    return general,head2head
+    for i in general:
+        nome_time = i['team']
+        if nome_time == 'away':
+            nome_time = away
+        if nome_time == 'home':
+            nome_time = home
+        print(nome_time, i['name'],i['value'])
+    print('-' * 10,'Head 2 Head', '-' * 10)
+    
+    for p in head2head:
+        nome_time = p['team']
+        if nome_time == 'away':
+            nome_time = away
+        if nome_time == 'home':
+            nome_time = home
+        print(nome_time, p['name'],p['value'])
 
 def situacao(num):
     url = f'https://api.sofascore.com/api/v1/event/{num}/pregame-form'
@@ -61,7 +76,7 @@ def situacao(num):
         away_posicao, away_pontos = json_data['awayTeam']['position'], json_data['awayTeam']['value']
         home_last = json_data['homeTeam']['form']
         away_last = json_data['awayTeam']['form']
-        return print('Time mandante:','Posição:',home_posicao,'Com', home_pontos,'Pts', home_last,'\n','-'*10,'\n'
+        print('Time mandante:','Posição:',home_posicao,'Com', home_pontos,'Pts', home_last,'\n','-'*10,'\n'
                  'Time visitante:','Posição:',away_posicao,'Com', away_pontos,'Pts', away_last)
     except:
         pass
