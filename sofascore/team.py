@@ -34,9 +34,9 @@ def estatisticas(ide, torneio, season):
         corners_contra = statistics['cornersAgainst']
         impedimentos = statistics['offsides']
         impedimentos_adv = statistics['offsidesAgainst']
-        print(f'{partidas} Partidas jogadas\n{gols_favor / partidas} Média de gols marcados\n{gols_contra / partidas} Média de gols cedidos\n{finalizacoes / partidas} Finalizações por jogo\n{fin_gol / partidas} Chutes a gol por jogo\n'
-f'{corners_favor / partidas} Escanteios por jogo\n{corners_contra / partidas} Escanteios cedidos por jogo\n{(corners_favor / partidas) + (corners_contra / partidas)} Escanteios na partida\n{amarelos / partidas} Cartões amarelos por jogo'
-f'\n{amarelos_adv / partidas} Cartões amarelos do adversário por jogo\n{impedimentos / partidas} Impedimentos por jogo\n{impedimentos_adv / partidas} Impedimentos do adversário por jogo')
+        print(f'{partidas} Partidas jogadas\n{gols_favor / partidas:.2f} Média de gols marcados\n{gols_contra / partidas:.2f} Média de gols cedidos\n{finalizacoes / partidas:.2f} Finalizações por jogo\n{fin_gol / partidas:.2f} Chutes a gol por jogo\n'
+f'{corners_favor / partidas:.2f} Escanteios por jogo\n{corners_contra / partidas:.2f} Escanteios cedidos por jogo\n{(corners_favor / partidas) + (corners_contra / partidas):.2f} Escanteios na partida\n{amarelos / partidas:.2f} Cartões amarelos por jogo'
+f'\n{amarelos_adv / partidas:.2f} Cartões amarelos do adversário por jogo\n{impedimentos / partidas:.2f} Impedimentos por jogo\n{impedimentos_adv / partidas:.2f} Impedimentos do adversário por jogo')
     except:
         pass
 
@@ -44,35 +44,45 @@ def player_stats(ide, torneio, season):
     url = f'https://api.sofascore.com/api/v1/team/{ide}/unique-tournament/{torneio}/season/{season}/top-players/overall'
     html = requests.get(url, headers=header)
     json_data = json.loads(html.text)
-    keys = json_data['topPlayers']['yellowCards']
-    for i in keys:
+    try:
+        keys = json_data['topPlayers']['yellowCards']
+        for i in keys:
             print(f"{i['player']['name']} -  {i['statistics']['yellowCards']} cartões amarelos em {i['statistics']['appearances']} jogos\n"
                 f"{int(i['statistics']['yellowCards']) / int(i['statistics']['appearances']):.2f} POR JOGO\n")
-
-    print('-' * 15)
-    keys = json_data['topPlayers']['goals']
-    for i in keys:
+    except:
+        pass
+    try:
+        print('-' * 15)
+        keys = json_data['topPlayers']['goals']
+        for i in keys:
             print(f"{i['player']['name']} -  {i['statistics']['goals']} gols em {i['statistics']['appearances']} jogos\n"
                 f"{int(i['statistics']['goals']) / int(i['statistics']['appearances']):.2f} POR JOGO\n")
-
-    print('-' * 15)
-    keys = json_data['topPlayers']['assists']
-    for i in keys:
+    except:
+        pass
+    try:
+        print('-' * 15)
+        keys = json_data['topPlayers']['assists']
+        for i in keys:
             print(f"{i['player']['name']} -  {i['statistics']['assists']} assistências em {i['statistics']['appearances']} jogos\n"
                 f"{int(i['statistics']['assists']) / int(i['statistics']['appearances']):.2f} POR JOGO\n")
-
-    print('-' * 15)
-    keys = json_data['topPlayers']['totalShots']
-    for i in keys:
+    except:
+        pass
+    try:
+        print('-' * 15)
+        keys = json_data['topPlayers']['totalShots']
+        for i in keys:
             print(f"{i['player']['name']} -  {i['statistics']['totalShots']} chutes em {i['statistics']['appearances']} jogos\n"
                 f"{int(i['statistics']['totalShots']) / int(i['statistics']['appearances']):.2f} POR JOGO\n")
-
-    print('-' * 15)
-    keys = json_data['topPlayers']['shotsOnTarget']
-    for i in keys:
+    except:
+        pass
+    try:
+        print('-' * 15)
+        keys = json_data['topPlayers']['shotsOnTarget']
+        for i in keys:
             print(f"{i['player']['name']} -  {i['statistics']['shotsOnTarget']} chutes ao gol em {i['statistics']['appearances']} jogos\n"
                 f"{int(i['statistics']['shotsOnTarget']) / int(i['statistics']['appearances']):.2f} POR JOGO\n")
-
+    except:
+        pass
                 
 
 def last_games(ide, name):
