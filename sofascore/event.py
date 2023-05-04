@@ -34,6 +34,7 @@ def dados_evento(num):
     json_data = json.loads(html.text)
     event = json_data['event']
     torneio = event['tournament']['name']
+    torneioslug = event['tournament']['slug']
     homeinfo = event['homeTeam']
     awayinfo = event['awayTeam']
     homename = homeinfo['name']
@@ -42,7 +43,7 @@ def dados_evento(num):
     homeid = homeinfo['id']
     awayslug = awayinfo['slug']
     awayid = awayinfo['id'] 
-    return torneio, homename, awayname, homeslug, homeid, awayslug, awayid
+    return torneio, homename, awayname, homeslug, homeid, awayslug, awayid, torneioslug
 
 def sequencias(num, home, away):
     url =f'https://api.sofascore.com/api/v1/event/{num}/team-streaks'

@@ -1,7 +1,7 @@
 import requests
 import json
 from bs4 import BeautifulSoup as bs
-from event import informar_partida
+import event
 
 header = {
     'accept': '*/*',
@@ -111,7 +111,7 @@ def last_games(ide, name):
                 
             except:
                 continue
-            id_antigas = informar_partida(f'https://www.sofascore.com/{slug}/{custom_id}')
+            id_antigas = event.informar_partida(f'https://www.sofascore.com/{slug}/{custom_id}')
             url_antiga = f'https://api.sofascore.com/api/v1/event/{id_antigas[0]}/statistics'
             html = requests.get(url_antiga, headers=header)
             json_data_antiga = json.loads(html.text)

@@ -1,5 +1,7 @@
 import event
 import team
+import punterspage
+
 
 link = input('Informe a partida Sofascore: ')
 
@@ -9,9 +11,20 @@ id_partida, id_season, id_torneio = ids[0], ids[1], ids[2]
 
 dados = event.dados_evento(id_partida)
 
-torneio, hometeam, awayteam, homeslug, homeid, awayslug, awayid = dados[0], dados[1], dados[2], dados[3], dados[4], dados[5], dados[6]
+torneio, hometeam, awayteam, homeslug, homeid, awayslug, awayid, torneioslug = dados[0], dados[1], dados[2], dados[3], dados[4], dados[5], dados[6], dados[7]
+if torneioslug == 'laliga':
+    torneioslug = 'la-liga'
+elif torneioslug == 'premierleague':
+    torneioslug = 'premier-league'
 
-sequencias = event.sequencias(id_partida, hometeam, awayteam)
+try:
+    punterspage.get_probs(torneioslug, hometeam)
+except:
+    print('partida não possui probabilidade no punterspage')
+
+print('\n')
+
+event.sequencias(id_partida, hometeam, awayteam)
 
 print('\n')
 
