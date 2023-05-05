@@ -4,9 +4,10 @@ import punterspage
 
 
 link = input('Informe a partida Sofascore: ')
-
-ids = event.informar_partida(link)
-
+try:
+    ids = event.informar_partida(link)
+except:
+    print('Insira url correta do confronto no site do sofascore: ')
 id_partida, id_season, id_torneio = ids[0], ids[1], ids[2]
 
 dados = event.dados_evento(id_partida)
@@ -16,11 +17,14 @@ if torneioslug == 'laliga':
     torneioslug = 'la-liga'
 elif torneioslug == 'premierleague':
     torneioslug = 'premier-league'
-
 try:
-    punterspage.get_probs(torneioslug, hometeam)
+    punterspage.get_probs(punterspage.get_slug(torneioslug, hometeam))
 except:
-    print('partida não possui probabilidade no punterspage')
+    timecasa = hometeam[2:]
+    try:
+        punterspage.get_probs(punterspage.get_slug(torneioslug, timecasa))
+    except:
+        print('Partida não possui probabilidade no PuntersPage')
 
 print('\n')
 
@@ -37,8 +41,6 @@ print('\n')
 print('-' * 10,awayteam,'-' * 10)
 
 team.estatisticas(awayid,id_torneio,id_season)
-
-event.situacao(id_partida)
 
 print('-' * 5,'ÚLTIMOS CONFRONTOS' ,'-' * 5)
 
@@ -65,5 +67,9 @@ print('-' * 20)
 print(awayteam)
 
 team.last_games(awayid, awayteam)
+
+print('\n')
+
+event.situacao(id_partida)
 
 input('Digite enter para sair')
