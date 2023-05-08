@@ -94,6 +94,7 @@ def last_games(ide, name):
         gols_primeiro_soma, gols_soma, escanteios_soma, amarelos_soma, partidas_soma, chutes_soma, impedimentos_soma = 0, 0 ,0 ,0 ,0, 0, 0
         partida_escanteios, partida_amarelos, partida_impedimentos, partida_chutes, vitorias, empates, derrotas, gols_feitos, gols_sofridos = 0, 0, 0 ,0, 0, 0, 0, 0, 0
         for i in keys:
+            
             nome_torneio = i['tournament']['name']
             slug, custom_id = i['slug'], i['customId']
             time_casa = i['homeTeam']['name']
@@ -119,7 +120,6 @@ def last_games(ide, name):
             except:
                 continue
             partidas_soma += 1
-            name = time_casa
             if time_casa == name:
                 gols_feitos += gols_casa
                 gols_sofridos += gols_away
@@ -138,11 +138,15 @@ def last_games(ide, name):
                     empates += 1
                 if gols_away < gols_casa:
                     derrotas += 1
+            
             print('-' * 15,'\n',nome_torneio,'||', time_casa, '-', gols_casa,'X',gols_away,'-', time_away, '\n')
+                    
             for x in stats[0]['groups']:
                 for y in x['statisticsItems']:
                     if y['name'] == 'Corner kicks' or y['name'] == 'Yellow cards' or y['name'] == 'Total shots' or y['name'] == 'Offsides':
+                        
                         print (y['name'],'-' ,time_casa,'-', y['home'], 'X', y['away'],'-', time_away)
+
                         if time_casa == name:
                             if y['name'] == 'Corner kicks':
                                 partida_escanteios += 1
@@ -183,7 +187,7 @@ def last_games(ide, name):
                     else:
                         continue
         gols_soma = gols_feitos + gols_sofridos
-        print(f'{name} - Nas últimas {partidas_soma} Partidas -> escanteios: {escanteios_soma} / amarelos: {amarelos_soma} /  chutes: {chutes_soma} / impedimentos: {impedimentos_soma}\n '
+        print(f'\n{name} - Nas últimas {partidas_soma} Partidas -> escanteios: {escanteios_soma} / amarelos: {amarelos_soma} /  chutes: {chutes_soma} / impedimentos: {impedimentos_soma}\n '
         f'Médias DO TIME : \n{escanteios_soma / partida_escanteios:.2f} Escanteios por jogo\n{amarelos_soma / partida_amarelos:.2f} Amarelos por jogo\n{chutes_soma / partida_chutes:.2f} Chutes por jogo\n{impedimentos_soma / partida_impedimentos:.2f} Impedimentos por jogo\n'
         f'{name} venceu {vitorias}, perdeu {derrotas} e empatou {empates} - Marcando {gols_feitos} gols e cedendo {gols_sofridos}\nMédia de gols na partida: {gols_soma / partidas_soma:.2f}\nMédia de gols no primeiro tempo da partida: {gols_primeiro_soma / partidas_soma:.2f}')
     except:

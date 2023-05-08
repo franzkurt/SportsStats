@@ -18,14 +18,20 @@ if torneioslug == 'laliga':
 elif torneioslug == 'premierleague':
     torneioslug = 'premier-league'
 try:
-    punterspage.get_probs(punterspage.get_slug(torneioslug, hometeam))
+    slug_punterspage =  punterspage.get_slug(torneioslug, hometeam)
 except:
     timecasa = hometeam[2:]
     try:
-        punterspage.get_probs(punterspage.get_slug(torneioslug, timecasa))
+        slug_punterspage = punterspage.get_slug(torneioslug, timecasa)
     except:
         print('Partida não possui probabilidade no PuntersPage')
 
+try:
+    punterspage.get_probs(slug_punterspage)
+    print('\n')
+    punterspage.get_ocorrencies(slug_punterspage)
+except:
+    pass
 print('\n')
 
 event.sequencias(id_partida, hometeam, awayteam)
@@ -46,13 +52,13 @@ print('-' * 5,'ÚLTIMOS CONFRONTOS' ,'-' * 5)
 
 team.ultimas_headtohead(link)
 
-print('-' * 20)
+#print('-' * 20)
 
-team.player_stats(homeid,id_torneio,id_season)
+#team.player_stats(homeid,id_torneio,id_season)
 
-print('-' * 15, awayteam,'-' * 15)
+#print('-' * 15, awayteam,'-' * 15)
 
-team.player_stats(awayid,id_torneio,id_season)
+#team.player_stats(awayid,id_torneio,id_season)
 
 print('\n')
 
