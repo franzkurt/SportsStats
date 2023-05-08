@@ -1,7 +1,7 @@
 import event
 import team
 import punterspage
-
+import soccerstats
 
 link = input('Informe a partida Sofascore: ')
 try:
@@ -25,13 +25,23 @@ except:
         slug_punterspage = punterspage.get_slug(torneioslug, timecasa)
     except:
         print('Partida não possui probabilidade no PuntersPage')
-
 try:
     punterspage.get_probs(slug_punterspage)
     print('\n')
     punterspage.get_ocorrencies(slug_punterspage)
 except:
     pass
+print('\n')
+
+try:
+    soccerstats.info_soccerstats(hometeam, torneio)
+except:
+    timecasa = hometeam[2:]
+    try:
+        soccerstats.info_soccerstats(timecasa, torneio)
+    except:
+        print('Partida não possui informações no site SoccerStats')
+
 print('\n')
 
 event.sequencias(id_partida, hometeam, awayteam)
@@ -48,34 +58,36 @@ print('-' * 10,awayteam,'-' * 10)
 
 team.estatisticas(awayid,id_torneio,id_season)
 
-print('-' * 5,'ÚLTIMOS CONFRONTOS' ,'-' * 5)
+print('-' * 5,'ÚLTIMOS CONFRONTOS' ,'-' * 5,'Jogos mais recentes primeiro')
 
 team.ultimas_headtohead(link)
-
-#print('-' * 20)
-
-#team.player_stats(homeid,id_torneio,id_season)
-
-#print('-' * 15, awayteam,'-' * 15)
-
-#team.player_stats(awayid,id_torneio,id_season)
 
 print('\n')
 
 print('-' * 20,'ULTIMOS JOGOS','-' * 20)
 
-print(hometeam)
+print(hometeam, 'Jogos mais recentes por último')
 
 team.last_games(homeid, hometeam)
 
 print('-' * 20)
 
-print(awayteam)
+print(awayteam, 'Jogos mais recentes por último')
 
 team.last_games(awayid, awayteam)
 
 print('\n')
 
 event.situacao(id_partida)
+
+decisao = input('Se deseja ver a estatística dos jogadores, digite "s":\n')
+if decisao == 's' or decisao == 'S':
+    print('-' * 20)
+
+    team.player_stats(homeid,id_torneio,id_season)
+
+    print('-' * 15, awayteam,'-' * 15)
+
+    team.player_stats(awayid,id_torneio,id_season)
 
 input('Digite enter para sair')
